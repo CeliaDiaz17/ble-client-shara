@@ -1,5 +1,18 @@
 import queue
+import json
 
+def get_responses():
+    data_queue = queue.Queue()
+    
+    with open("data.json", "r") as file:
+        data = json.load(file)
+        print(data)
+    
+    for item in data:
+        data_queue.put(item)
+    return data_queue
+
+#redefinir este metodo usando data_queue
 def process_responses(responses, correct_answer):
     response_queue = queue.Queue()
     for response in responses:
@@ -36,10 +49,11 @@ responses_data = [
 
 results = []
 
-# Procesar todas las respuestas
-for responses, correct_answer in responses_data:
-    percentage_corrects, percentage_incorrects = process_responses(responses, correct_answer)
-    results.append((percentage_corrects, percentage_incorrects))
+def main ():
+    # Procesar todas las respuestas
+    for responses, correct_answer in responses_data:
+        percentage_corrects, percentage_incorrects = process_responses(responses, correct_answer)
+        results.append((percentage_corrects, percentage_incorrects))
 
-# Guardar todos los resultados en un solo archivo
-save_results_to_file("results.txt", results)
+    # Guardar todos los resultados en un solo archivo
+    save_results_to_file("results.txt", results)
