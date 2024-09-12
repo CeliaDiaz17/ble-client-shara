@@ -12,6 +12,15 @@ def get_responses():
         data_queue.put(item)
     return data_queue
 
+def get_correct_answer():
+    #leer archivo generated_quiz.txt
+    #buscar la linea que tenga el *
+    #devolver la letra correspondiente al *
+    #meter en lista o diccionario
+    correct_answer=""
+    
+    return correct_answer
+
 #redefinir este metodo usando data_queue
 def process_responses(responses, correct_answer):
     response_queue = queue.Queue()
@@ -30,6 +39,7 @@ def process_responses(responses, correct_answer):
     percentage_incorrects = 100 - percentage_corrects
 
     return percentage_corrects, percentage_incorrects
+
 
 def save_results_to_file(filename, results):
     with open(filename, "w") as file:
