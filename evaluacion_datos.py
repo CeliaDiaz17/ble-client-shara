@@ -12,14 +12,19 @@ def get_responses():
         data_queue.put(item)
     return data_queue
 
+#TODO
+#Dar una pensada a como hacer este metodo. (recibimos cola con las respuestas de UNA pregunta, y en el json tengo las respuestas correctas de TODO el quiz)
+'''
+    Tener un json de respuestas para cada pregunta. data1, data2,...,data5
+        Problema: Como hago el procesamiento?
+'''
+'''
 def get_correct_answer():
-    #leer archivo generated_quiz.txt
-    #buscar la linea que tenga el *
-    #devolver la letra correspondiente al *
-    #meter en lista o diccionario
-    correct_answer=""
+    open with open("correct_answer.json", "r") as file:
+        correct_answer = json.load(file)        
     
     return correct_answer
+'''
 
 #redefinir este metodo usando data_queue
 def process_responses(responses, correct_answer):
