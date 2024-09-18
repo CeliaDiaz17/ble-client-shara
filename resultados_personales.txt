@@ -1,0 +1,13 @@
+Porcentajes de respuestas correctas/incorrectas por dispositivo:
+Dispositivo 14:2B:2F:B0:70:C2:
+Porcentaje de respuestas correctas: 100%
+Porcentaje de respuestas incorrectas: 0%
+
+Dispositivo 10:06:1c:27:6e:a2:
+Porcentaje de respuestas correctas: 60%
+Porcentaje de respuestas incorrectas: 40%
+
+Dispositivo 10:06:1c:28:63:76:
+Porcentaje de respuestas correctas: 80%
+Porcentaje de respuestas incorrectas: 20%
+
