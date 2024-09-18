@@ -85,8 +85,7 @@ def calculo_porcentajes_especificos(resultados):
             "porcentaje_incorrectas": porcentaje_incorrectas,
         }
 
-    return porcentajes
-        
+    return porcentajes    
 
 def imprimir_resultados(resultados, correctas, incorrectas, correctas_disp):
     #Porcentajes correcto/incorrecto de cada pregunta
@@ -110,14 +109,24 @@ def imprimir_resultados(resultados, correctas, incorrectas, correctas_disp):
         print(f"Porcentaje de respuestas incorrectas: {porcentajes['porcentaje_incorrectas']:.0f}%")
         print()
     
-'''
-def save_results_to_file(filename, results):
+
+def save_results_to_file_speaker(filename, porcentaje_correctas, porcentaje_incorrectas):
     with open(filename, "w") as file:
-        for i, (percentage_corrects, percentage_incorrects) in enumerate(results, 1):
-            #file.write(f"Ronda {i}:\n")
-            file.write(f"Bueno chicos, el: {percentage_corrects:.0f}% de vosotros lo habéis contestado bien, y el {percentage_incorrects:.0f}% lo habéis contestado mal. ¡No os preocupéis! ¡Vamos a por la siguiente ronda!\n\n")    
+            file.write(f"En general, el: {porcentaje_correctas:.0f}% de las respuestas han sido correctas, y el {porcentaje_incorrectas:.0f}% han sido incorrectas.\n\n")
+            if porcentaje_correctas > porcentaje_incorrectas:
+                file.write("¡Felicidades a todos! En general, tenéis una comprensión bastante buena del temario. ¡Seguid así!\n")
+            else:
+                file.write("Parece que hay un poco de confusión con el temario. ¡Pero no os preocupéis! Seguid practicando e iréis mejorando poco a poco. ¡Equivocarse es una forma de aprender!\n")
     print(f"Los resultados han sido guardados en '{filename}'")
-'''
+
+def save_results_to_file_teacher(filename, resultados_disp_especificos):
+    with open(filename, "w") as file:
+        file.write("Porcentajes de respuestas correctas/incorrectas por dispositivo:\n")
+        for dispositivo, porcentajes in resultados_disp_especificos.items():
+            file.write(f"Dispositivo {dispositivo}:\n")
+            file.write(f"Porcentaje de respuestas correctas: {porcentajes['porcentaje_correctas']:.0f}%\n")
+            file.write(f"Porcentaje de respuestas incorrectas: {porcentajes['porcentaje_incorrectas']:.0f}%\n\n")
+    print(f"Los resultados han sido guardados en '{filename}'")
 
 def main ():
     archivo_correct_answers = "correct_answers.json"
@@ -130,6 +139,9 @@ def main ():
     porcentaje_correctas, porcentaje_incorrectas = calculo_porcentajes(resultados)
     porcentajes_especificos = calculo_porcentajes_especificos(resultados)
     imprimir_resultados(resultados, porcentaje_correctas, porcentaje_incorrectas,porcentajes_especificos)
+    
+    save_results_to_file_speaker("resultados_generales.txt", porcentaje_correctas, porcentaje_incorrectas)
+    save_results_to_file_teacher("resultados_personales.txt", porcentajes_especificos)
     
 if __name__ == "__main__":
     main()
