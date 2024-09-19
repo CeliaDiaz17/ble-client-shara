@@ -1,5 +1,5 @@
 # ble-client-shara
-Repository for the client-side of my final degree project, which consist in a client-server communication using BLE.
+Repository for the client-side of my final degree project, which consist in a client-server communication using BLE
 
 In this repository you can find what I've called the "First Module" of the project. In this module you'll find the following scripts which are in charge of the correct functioning of different parts of the server-side of the project.
 
