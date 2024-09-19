@@ -1,12 +1,11 @@
-# ble-server-shara
+# ble-client-shara
 Repository for the client-side of my final degree project, which consist in a client-server communication using BLE.
 
 In this repository you can find what I've called the "First Module" of the project. In this module you'll find the following scripts which are in charge of the correct functioning of different parts of the server-side of the project.
 
-## BLE-Server
+## BLE-Client
 
-The BLE Server part was developed thanks to brunovollmer project, which can be found in this repository: "https://github.com/brunovollmer/pycon_ble_demo/tree/master". This code was adapted in order to fullfill my BLE Server needs. 
- [Añadir algo de explicacion en cuanto al servicio que tiene y las características de dicho servicio, especificar un poco mas en cuanto a la conexion bluetooth y como ocurre]
+BLE Client to stablish the connection with the clickers.
 
 ## Quiz generation
 
