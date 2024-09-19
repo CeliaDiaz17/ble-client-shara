@@ -1,6 +1,7 @@
 import queue
 import json
 import os
+import openai
 
 def leer_respuestas_correctas(correct_answers):
     with open (correct_answers, "r") as file:
@@ -127,6 +128,24 @@ def save_results_to_file_teacher(filename, resultados_disp_especificos):
             file.write(f"Porcentaje de respuestas correctas: {porcentajes['porcentaje_correctas']:.0f}%\n")
             file.write(f"Porcentaje de respuestas incorrectas: {porcentajes['porcentaje_incorrectas']:.0f}%\n\n")
     print(f"Los resultados han sido guardados en '{filename}'")
+    
+def generate_possible_answ(porcentaje_correctas, porcentaje_incorrectas):
+    prompt = f"Generate different forms of saying the percentage of correct and incorrect answers which are this values: {porcentaje_correctas} {porcentaje_incorrectas} to encourage the students to keep learning and make them feel good about their progress. Also make it dynamic."
+    
+    response = openai.chat.completions.create(
+        messages=[
+            {
+                "role": "user",
+                "content": prompt,
+            }
+        ],
+        #model="gpt-3.5-turbo",
+        model="gpt-4",
+
+    )
+    
+    return response.choices[0].message.content.strip()
+
 
 def main ():
     archivo_correct_answers = "correct_answers.json"
@@ -142,6 +161,10 @@ def main ():
     
     save_results_to_file_speaker("resultados_generales.txt", porcentaje_correctas, porcentaje_incorrectas)
     save_results_to_file_teacher("resultados_personales.txt", porcentajes_especificos)
+    
+    with open ("possible_answ.txt", "w") as file:
+        file.write(generate_possible_answ(porcentaje_correctas, porcentaje_incorrectas))
+        
     
 if __name__ == "__main__":
     main()
