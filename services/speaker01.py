@@ -1,3 +1,7 @@
+'''
+Modulo dedicado a la creación de audios a partir del texto y su reproducción. Usa los servicios de Google Text-to-Speech.
+'''
+
 import time
 from gtts import gTTS
 from playsound import playsound

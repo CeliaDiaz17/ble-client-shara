@@ -1,3 +1,8 @@
+'''
+Uno de los módulos secundarios del sistema. Se encarga de la generacion de preguntas y respuestas del quiz, usando el modulo de OpenAI.
+La generación del quiz se guarda en un archivo de texto mientras que las respuestas de SHARA no se almacenan en memoria.
+'''
+
 import fitz
 import openai
 

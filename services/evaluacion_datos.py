@@ -1,3 +1,7 @@
+'''
+Modulo dedicado a la evaluacion de las respuestas recibidas de los dispositivos "M5Stick".
+'''
+
 import queue
 import json
 import os
