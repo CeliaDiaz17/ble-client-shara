@@ -52,6 +52,23 @@ class OpenAIAPI:
         )
         
         return response.choices[0].message.content.strip()
+
+    def generate_possible_answ(self, porcentaje_correctas, porcentaje_incorrectas):
+        prompt = f"""Generate different forms of saying the percentage of correct and incorrect answers which are this values: {porcentaje_correctas} {porcentaje_incorrectas} to encourage 
+        the students to keep learning and make them feel good about their progress."""
+        
+        response = openai.chat.completions.create(
+            messages=[
+                {
+                    "role": "user",
+                    "content": prompt,
+                }
+            ],
+            model="gpt-4",
+
+        )
+        
+        return response.choices[0].message.content.strip()
         
     
         

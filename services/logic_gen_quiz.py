@@ -6,11 +6,13 @@ La generación del quiz se guarda en un archivo de texto mientras que las respue
 import fitz
 import openai
 from services.cloud.openai_api import OpenAIAPI
+from services.evaluacion_datos import EvaluateData
 
 class QuizGenerator:
     
     def __init__(self, open_api: OpenAIAPI):
         self.open_api = open_api
+        self.eval_data = EvaluateData()
         
     #extraccion texto del pdf proporcionado por el usuario
     def extract_text_pdf(pdf_path):
@@ -34,4 +36,12 @@ class QuizGenerator:
         print("Las respuestas han sido guardadas en 'quiz_reponses.txt'")
         
         return quiz, answers
+    
+    def save_possible_answ(self):
+        #si da problema con esta linea probablemente haya que pasarle el porcentaje de correctas e incorrectas. Estan en la clase EvaluateData
+        possible_answs = self.open_api.generate_possible_answ()
+        
+        with open ("possible_answ.txt", "w") as file:
+            file.write(possible_answs)
+        print("Los resultados han sido guardados en 'possible_answ.txt'")
 

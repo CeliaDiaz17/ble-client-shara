@@ -22,6 +22,8 @@ class BleManager:
         self.MAX_RECONNECT = 5 #pq en el quiz hay 5 preguntas :D
         self.OUTPUT_DIR = "respuestas"
         os.makedirs(self.OUTPUT_DIR, exist_ok=True)
+        
+        self.current_round_data = {}
 
     async def scan_device(address):
         max_retries =  10 #num max de intentos de reconexion si alguno falla
@@ -72,18 +74,22 @@ class BleManager:
             while not temp_queue.empty():
                 self.address_queue.put(temp_queue.get())
             
+            self.current_round_data = round_data
             print("Ronda de conexiones completada. Datos almacenados en la lista.")
             
+            
             # Guardar los datos en un archivo JSON
+            '''
             filename = os.path.join(self.OUTPUT_DIR, f"respuestas_pregunta_{reconnect_count + 1}.json")
             with open(filename, "w") as file:
                 json.dump(round_data, file, indent=2)        
             print(f"Datos guardados en '{filename}'")
+            '''
             
             reconnect_count += 1
             
             if reconnect_count < self.MAX_RECONNECT:
                 print(f"Esperando {self.RECONNECT_INTERVAL} segundos antes de la próxima ronda de conexiones...")
                 await asyncio.sleep(self.RECONNECT_INTERVAL)
+        print("Ciclo BLE completado. Respuestas guardadas en memoria.")
             
-            print("Proceso completado. Se han guardado todas las respuestas")
