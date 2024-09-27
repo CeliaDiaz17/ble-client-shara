@@ -12,7 +12,7 @@ voice = texttospeech.VoiceSelectionParams(
 )
 tts_config = texttospeech.AudioConfig(
     audio_encoding=texttospeech.AudioEncoding.LINEAR16,
-    sample_rate_hertz=24000
+    sample_rate_hertz=22050
 )
 
 # STT 
@@ -25,6 +25,7 @@ stt_config = speech.RecognitionConfig(
 
 # Translator 
 translate_client = translate.Client()
+
 
 def speech_to_text(audio_bytes):
     audio = speech.RecognitionAudio(content=audio_bytes)

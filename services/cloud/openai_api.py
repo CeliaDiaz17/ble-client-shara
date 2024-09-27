@@ -31,7 +31,7 @@ class OpenAIAPI:
                 "content": prompt,
             }
         ],
-        model="gpt-4",
+        model="gpt-4o-mini",
         )
         return response.choices[0].message.content.strip()
 
@@ -48,7 +48,7 @@ class OpenAIAPI:
                     "temperature": 0.1,
                 }
             ],
-            model="gpt-4",
+            model="gpt-4o-mini",
         )
         
         return response.choices[0].message.content.strip()
@@ -64,7 +64,7 @@ class OpenAIAPI:
                     "content": prompt,
                 }
             ],
-            model="gpt-4",
+            model="gpt-4o-mini",
 
         )
         

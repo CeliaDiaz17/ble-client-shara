@@ -7,7 +7,7 @@ import sys
 import os
 import asyncio
 import random
-import playsound
+import pyaudio
 from ble_client_shara import BleManager
 from services.logic_gen_quiz import QuizGenerator
 from services.cloud.openai_api import OpenAIAPI
@@ -23,17 +23,20 @@ class Main:
         self.ble_client_shara = BleManager()
         self.speaker = Speaker()
         self.eval_data = EvaluateData()
+        self.p = pyaudio.PyAudio()
 
     async def run(self):
+        print("INICIO DE SISTEMA")
         user_document = self.openai_api.user_document
         end_loop = self.ble_client_shara.MAX_RECONNECT
         loop_iter = 0
-        
-        with open("generated_quiz.txt", "r") as file:
-            quiz = file.readlines()
+        stream = self.p.open(format=pyaudio.paInt16, channels=1, rate=22050, output=True)
         
         #Llamadas para generacion del quiz y respuestas
-        self.gen_quiz.generate_and_save_quiz(user_document, num_questions=5, num_choices=3)
+        self.gen_quiz.generate_and_save_quiz(user_document)
+        
+        #with open("generated_quiz.txt", "r") as file:
+        #    quiz = file.readlines()
 
         #Establecer conexion BLE
         await self.ble_client_shara.ble_cycle() #asegurar que esto ocurre a la vez que todo lo demas
@@ -41,9 +44,9 @@ class Main:
         #Mientras el numero de preguntas sea menor a 5
         while loop_iter < end_loop:
             #Reproducir pregunta (matizar que reproduzca solo la que toque en cada iteracion)
-            pregunta = self.get_pregunta(self.loop_iter, quiz)
-            audio_pregunta = self.speaker.speak(pregunta)
-            playsound(audio_pregunta)
+            quiz_audio = self.speaker.speak_question()
+            if quiz_audio:
+                stream.write(quiz_audio)           
             #Recibir respuesta (no se si deberia ir el speaker en el await tambien)
             await asyncio.gather(self.ble_client_shara.ble_cycle())
             #Evaluar respuesta
@@ -51,21 +54,40 @@ class Main:
             respuestas_correctas = self.eval_data.leer_respuestas_correctas("correct_answers.json")
             self.eval_data.evaluar(respuestas_dispositivos, respuestas_correctas)
             #Reproducir feedback de la respuesta
-            with open("quiz_responses.txt", "r") as file:
-                all_lines = file.readlines()
-                random_line = random.choice(all_lines)
-            feedback = self.speaker.speak(random_line)
-            playsound(feedback)
-            #Cierre, explicacion final
-            with open("resultados_generales.txt", "r") as file:
-                general_results = file.read()
-            final_feedback = self.speaker.speak(general_results)
-            playsound(final_feedback)
-            loop_iter += 1 
+            response_audio = self.speaker.speak_responses()
+            if response_audio:
+                stream.write(response_audio)
+            feedback_audio = self.speaker.speak_feedback()
+            if feedback_audio:
+                stream.write(feedback_audio)
+            #Avanzar a la siguiente pregunta
+            loop_iter += 1
+            self.speaker.next_question()
+            
+            #Cierre, explicacion final TODO
+        '''
+        with open("resultados_generales.txt", "r") as file:
+            general_results = file.read()
+        final_feedback = self.speaker.speak(general_results)
+        stream.write(final_feedback)
+        '''
+        #Despedida en alto TODO
+        '''     
         goodbye = self.speaker.speak("¡Un placer haber jugado con vosotros! ¡Chaito!")
-        playsound(goodbye)
-    
+        stream.write(goodbye)
+        '''
+        
+        self.stream.stop_stream()
+        self.stream.close()
+        self.p.terminate()
+        print("FIN DE SISTEMA")
+        
     def get_pregunta(self, iteracion, preguntas):
         start_idx = iteracion * 4
         return "".join(preguntas[start_idx:start_idx + 4])
-#Ciere conexion BLE
+
+
+if __name__ == "__main__":
+    api_key = os.getenv("OPENAI_API_KEY")
+    main = Main(api_key)
+    asyncio.run(main.run())
