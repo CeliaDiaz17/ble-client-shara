@@ -43,8 +43,8 @@ class Speaker:
             lines = file.readlines()
         return lines[line_number].strip() if line_number < len(lines) else None  
       
-    def speak_question(self):
-        question = self.read_quiz_block(self.current_question)
+    def speak_question(self, question_number):
+        question = self.read_quiz_block(question_number)
         if question:
             audio = text_to_speech(question)        
             with open("salida_quiz_{self.current_question + 1}.wav", "wb") as audio_file:
@@ -71,6 +71,21 @@ class Speaker:
                 audio_file.write(audio)
             return audio
         return None
+    
+    def speak_final_feedback(self):
+        with open("files/resultados_generales.txt", "r") as file:
+            general_results = file.read()
+        
+        audio = text_to_speech(general_results)
+        with open("salida_final_feedback.wav", "wb") as audio_file:
+            audio_file.write(audio)
+        return audio
+    
+    def speak(self, text):
+        audio = text_to_speech(text)
+        with open("salida_final_feedback.wav", "wb") as audio_file:
+            audio_file.write(audio)
+        return audio    
     
     def next_question(self):
         self.current_question += 1

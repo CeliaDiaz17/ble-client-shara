@@ -25,7 +25,7 @@ class BleManager:
         
         self.current_round_data = {}
 
-    async def scan_device(address):
+    async def scan_device(self,address):
         max_retries =  10 #num max de intentos de reconexion si alguno falla
         data_list = []
         connected = False
@@ -92,4 +92,5 @@ class BleManager:
                 print(f"Esperando {self.RECONNECT_INTERVAL} segundos antes de la próxima ronda de conexiones...")
                 await asyncio.sleep(self.RECONNECT_INTERVAL)
         print("Ciclo BLE completado. Respuestas guardadas en memoria.")
-            
+    
+                    

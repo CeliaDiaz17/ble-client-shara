@@ -8,7 +8,7 @@ import os
 import openai
 
 class EvaluateData:
-    def leer_respuestas_correctas(correct_answers):
+    def leer_respuestas_correctas(self, correct_answers):
         with open (correct_answers, "r") as file:
             data = json.load(file)
         return data
@@ -25,28 +25,34 @@ class EvaluateData:
                 print(f"Aviso: el archivo {archivo} ha sido ignorado.")
         return respuestas
 
-    def evaluar_respuestas(respuestas_correctas, respuestas_dispositivos):
+    def evaluar_respuestas(self, respuestas_correctas, respuestas_dispositivos):
         resultados = {}
+        print(f"respuestas dispositivos: {respuestas_dispositivos}")
+
         for pregunta in respuestas_correctas:
-            numero_pregunta = pregunta["question"]
-            respuesta_correcta = pregunta["correct_answer"].lower()
-            print(f"numero_pregunta: {numero_pregunta}")
-            print(f"respuesta_correcta: {respuesta_correcta}") 
-            
-            
-            if numero_pregunta in respuestas_dispositivos:
-                respuestas_pregunta = respuestas_dispositivos[numero_pregunta]
-                resultados[numero_pregunta] = {
-                    'respuesta_correcta': respuesta_correcta,
-                    'respuestas_dispositivos': {},
-                }
                 
-                for dispositivo, respuestas in respuestas_pregunta.items():
-                    respuesta_dispositivo = respuestas[0].lower() if respuestas else ''
-                    es_correcta = respuesta_dispositivo == respuesta_correcta
-                    resultados[numero_pregunta]['respuestas_dispositivos'][dispositivo] = es_correcta
-            else:
-                print(f"Las respuestas para la pregunta {numero_pregunta} no se han encontrado.")
+                numero_pregunta = pregunta["question"]
+                respuesta_correcta = pregunta["correct_answer"].lower()
+                print(f"numero_pregunta: {numero_pregunta}")
+                print(f"respuesta_correcta: {respuesta_correcta}") 
+                
+                
+                if numero_pregunta in respuestas_dispositivos:
+
+                    respuestas_pregunta = respuestas_dispositivos[numero_pregunta]
+                    resultados[numero_pregunta] = {
+                        'respuesta_correcta': respuesta_correcta,
+                        'respuestas_dispositivos': {},
+                    }
+                    
+                    for dispositivo, respuestas in respuestas_pregunta.items():
+                        respuesta_dispositivo = respuestas[0].lower() if respuestas else ''
+                        es_correcta = respuesta_dispositivo == respuesta_correcta
+                        resultados[numero_pregunta]['respuestas_dispositivos'][dispositivo] = es_correcta
+                else:
+                    print(f"Las respuestas para la pregunta {numero_pregunta} no se han encontrado.") 
+                        
+            
         return resultados
 
     def calculo_porcentajes(resultados):
