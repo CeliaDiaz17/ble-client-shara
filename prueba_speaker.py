@@ -1,5 +1,5 @@
 import time
-from services.speaker01 import Speaker
+from services.speaker import Speaker
 import pyaudio
 
 def main():

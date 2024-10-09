@@ -1,0 +1,52 @@
+{
+    "1": {
+        "statement": "¿Cuál es la importancia del ciclo del agua en un ecosistema?",
+        "options": {
+            "a": "Mantener el equilibrio térmico del ambiente",
+            "b": "Permitir el transporte de nutrientes y desechos",
+            "c": "Regular la cantidad de luz solar que llega al suelo"
+        },
+        "correct": "b",
+        "explanation": "La correcta opción es la b, ya que el ciclo del agua permite el transporte de nutrientes y desechos en los ecosistemas, facilitando la vida de los seres vivos que dependen de ellos."
+    },
+    "2": {
+        "statement": "¿Qué fenómeno natural contribuye al ciclo del agua al evaporar el agua de los océanos?",
+        "options": {
+            "a": "La fotosíntesis de las plantas marinas",
+            "b": "La radiación solar",
+            "c": "Los huracanes"
+        },
+        "correct": "b",
+        "explanation": "La respuesta correcta es la b, ya que la radiación solar es el principal agente que provoca la evaporación del agua de los océanos, dando inicio al ciclo del agua."
+    },
+    "3": {
+        "statement": "¿Cuál es el proceso por el cual el agua vuelve a la superficie de la Tierra en forma de lluvia o nieve?",
+        "options": {
+            "a": "Evaporación",
+            "b": "Precipitación",
+            "c": "Transpiración"
+        },
+        "correct": "b",
+        "explanation": "La opción correcta es la b, ya que la precipitación es el proceso por el cual el agua que se evapora vuelve a la superficie terrestre en forma de lluvia, nieve, granizo, entre otros."
+    },
+    "4": {
+        "statement": "¿Qué papel juegan las plantas en el ciclo del agua a través de la liberación de vapor de agua por sus hojas?",
+        "options": {
+            "a": "Reducción de la temperatura del suelo",
+            "b": "Aumento de la salinidad del agua",
+            "c": "Aceleración de la evaporación"
+        },
+        "correct": "a",
+        "explanation": "La respuesta correcta es la a, ya que las plantas liberan vapor de agua por sus hojas, lo cual contribuye a la reducción de la temperatura del suelo, ayudando a regular el ciclo del agua."
+    },
+    "5": {
+        "statement": "¿Qué ocurre cuando el agua infiltra en el suelo y recarga los acuíferos subterráneos?",
+        "options": {
+            "a": "Se produce una disminución en el nivel de los ríos",
+            "b": "Se altera el ciclo natural del agua",
+            "c": "Se genera una reserva de agua potable"
+        },
+        "correct": "c",
+        "explanation": "La opción correcta es la c, ya que cuando el agua infiltra en el suelo y recarga los acuíferos subterráneos, se genera una reserva de agua subterránea, la cual puede ser utilizada como agua potable."
+    }
+}

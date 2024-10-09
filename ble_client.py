@@ -18,7 +18,6 @@ class BleManager:
         for address in [self.address_1, self.address_2, self.address_3]:
             self.address_queue.put(address)
 
-        self.RECONNECT_INTERVAL = 20 #Cambiar al tiempo que se tarde en una pregunta
         self.MAX_RECONNECT = 5 #pq en el quiz hay 5 preguntas :D
         self.OUTPUT_DIR = "respuestas"
         os.makedirs(self.OUTPUT_DIR, exist_ok=True)
@@ -54,43 +53,20 @@ class BleManager:
         return data_list
 
     async def ble_cycle(self):
-        reconnect_count = 0
-        
-        while reconnect_count < self.MAX_RECONNECT:
-            print(f"Iniciando nueva ronda de conexiones (Pregunta {reconnect_count + 1})...")
-            round_data = {}
+        round_data = {}
             
-            # Reiniciar la lista de datos antes de la nueva ronda de conexiones
-            data_list = []
-            
-            temp_queue = Queue()
-            while not self.address_queue.empty():
-                address = self.address_queue.get()
-                device_data = await self.scan_device(address)
-                round_data[address] = device_data
-                temp_queue.put(address)
+        temp_queue = Queue()
+        while not self.address_queue.empty():
+            address = self.address_queue.get()
+            device_data = await self.scan_device(address)
+            round_data[address] = device_data
+            temp_queue.put(address)
             
             # Restaurar la cola de direcciones
-            while not temp_queue.empty():
-                self.address_queue.put(temp_queue.get())
+        while not temp_queue.empty():
+            self.address_queue.put(temp_queue.get())
             
-            self.current_round_data = round_data
-            print("Ronda de conexiones completada. Datos almacenados en la lista.")
+        self.current_round_data = round_data
+        print("Ronda de conexiones completada. Datos almacenados en la lista.")
             
-            
-            # Guardar los datos en un archivo JSON
-            '''
-            filename = os.path.join(self.OUTPUT_DIR, f"respuestas_pregunta_{reconnect_count + 1}.json")
-            with open(filename, "w") as file:
-                json.dump(round_data, file, indent=2)        
-            print(f"Datos guardados en '{filename}'")
-            '''
-            
-            reconnect_count += 1
-            
-            if reconnect_count < self.MAX_RECONNECT:
-                print(f"Esperando {self.RECONNECT_INTERVAL} segundos antes de la próxima ronda de conexiones...")
-                await asyncio.sleep(self.RECONNECT_INTERVAL)
-        print("Ciclo BLE completado. Respuestas guardadas en memoria.")
-    
                     
