@@ -3,51 +3,32 @@ Module dedicated to the evaluation of the answers provided by the devices M5Stic
 '''
 
 
-def evaluar_respuestas(self, respuestas_correctas, respuestas_dispositivos):
-    resultados = {}
-    print(f"respuestas dispositivos: {respuestas_dispositivos}")
+def get_corrects(json_data, devices_responses, question_number):
+    question_key = str(question_number)
+    correct_answ = json_data[question_key]["correct"]
+    corrects = 0
+    
+    for device, responses in devices_responses.items():
+        for response in responses:
+            if response == correct_answ:
+                corrects += 1
+    
+    return corrects        
+    
 
-    for pregunta in respuestas_correctas:
-                
-        numero_pregunta = pregunta["question"]
-        respuesta_correcta = pregunta["correct_answer"].lower()
-        print(f"numero_pregunta: {numero_pregunta}")
-        print(f"respuesta_correcta: {respuesta_correcta}") 
-                
-                
-        if numero_pregunta in respuestas_dispositivos:
-
-            respuestas_pregunta = respuestas_dispositivos[numero_pregunta]
-            resultados[numero_pregunta] = {
-                'respuesta_correcta': respuesta_correcta,
-                'respuestas_dispositivos': {},
-            }
-                    
-            for dispositivo, respuestas in respuestas_pregunta.items():
-                respuesta_dispositivo = respuestas[0].lower() if respuestas else ''
-                es_correcta = respuesta_dispositivo == respuesta_correcta
-                resultados[numero_pregunta]['respuestas_dispositivos'][dispositivo] = es_correcta
-        else:
-            print(f"Las respuestas para la pregunta {numero_pregunta} no se han encontrado.") 
-                                
-    return resultados
-
-
-def calculo_porcentajes(resultados):
-    total_respuestas = 0
-    total_correctas = 0
+def calculate_percent(correct_answ, total_answ):
+    if total_answ == 0:
+        return 0,100 #para no dividir entre 0 y que pete
         
-    for resultado in resultados.values():
-        for es_correcta in resultado["respuestas_dispositivos"].values():
-            total_respuestas += 1
-            if es_correcta:
-                total_correctas += 1
+    percentage_correct = (correct_answ / total_answ) * 100
+    percentage_incorrect = 100 - percentage_correct
         
-    porcentaje_correctas = (total_correctas / total_respuestas) * 100
-    porcentaje_incorrectas = 100 - porcentaje_correctas
-        
-    return porcentaje_correctas, porcentaje_incorrectas
+    return percentage_correct
 
+
+'''
+MICKY HERRAMIENTAS QUE USAREMOS MAS TARDE
+*Calculo de porcentajes específicos y desde que dispositivo provienen. Se guarda en un txt para dispo del profe*
 
 def calculo_porcentajes_especificos(resultados):
     estadisticas_dispositivos = {}
@@ -78,6 +59,8 @@ def calculo_porcentajes_especificos(resultados):
     return porcentajes   
  
 
+
+
 def save_results_to_file_teacher(filename, resultados_disp_especificos):
     with open(filename, "w") as file:
         file.write("Porcentajes de respuestas correctas/incorrectas por dispositivo:\n")
@@ -85,5 +68,7 @@ def save_results_to_file_teacher(filename, resultados_disp_especificos):
             file.write(f"Dispositivo {dispositivo}:\n")
             file.write(f"Porcentaje de respuestas correctas: {porcentajes['porcentaje_correctas']:.0f}%\n")
             file.write(f"Porcentaje de respuestas incorrectas: {porcentajes['porcentaje_incorrectas']:.0f}%\n\n")
-    print(f"Los resultados han sido guardados en '{filename}'")     
-        
+    print(f"Los resultados han sido guardados en '{filename}'")
+
+
+'''

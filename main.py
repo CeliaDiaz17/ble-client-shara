@@ -9,15 +9,14 @@ import time
 import asyncio
 from services.quiz import Quiz
 from services.speaker import Speaker
-from services.utils import get_correct, get_explanation, get_options, get_statement
+from services.utils import get_correct, get_explanation, get_options, get_statement, evaluation_feedback
 from ble_client import BleManager
+from services.data_evaluation import  get_corrects, calculate_percent
 
 def main():
     quiz = Quiz()
     speaker = Speaker()
     ble_manager = BleManager()
-    
-    #speaker.speak("hola")
     
     
     json_file_path = "files/quiz.json"
@@ -49,9 +48,15 @@ def main():
         
         speaker.speak(correct)
         speaker.speak(explanation)
-    
-    
-     
+        
+        #evaluation and feedback
+        correct_answers = get_corrects(quiz, responses, question_number)
+        total_answ = len(responses)
+        percentage_correct = calculate_percent(correct_answers,total_answ)
+        str_feedback = evaluation_feedback(percentage_correct)
+        
+        speaker.speak(str_feedback)
+        
 
 
 if __name__ == "__main__":
@@ -74,66 +79,4 @@ if __name__ == "__main__":
         json.dump(dict_quiz, json_file, ensure_ascii=False, indent=4)
     '''
 
-
-
-'''
-def main():
-    print("INICIO DE SISTEMA")
-    user_document = self.openai_api.user_document
-    end_loop = self.ble_client_shara.MAX_RECONNECT
-    loop_iter = 0
-    stream = self.p.open(format=pyaudio.paInt16, channels=1, rate=22050, output=True)
-        
-    #Llamada para generacion del quiz y respuestas
-
-    #Mientras el numero de preguntas sea menor a 5
-    for question_number in range(0, end_loop):
-            
-        #Reproducir pregunta 
-        print(f"Reproduciendo pregunta: {question_number}...")
-        quiz_audio = self.speaker.speak_question(question_number)
-        if quiz_audio:
-            stream.write(quiz_audio)           
-            
-        #Recibe respuesta que esta en current_round_data
-            
-        #Evaluar respuesta
-        respuestas_dispositivos = self.ble_client_shara.current_round_data
-        respuestas_correctas = self.eval_data.leer_respuestas_correctas("files/correct_answers.json")
-        self.eval_data.evaluar_respuestas(respuestas_dispositivos, respuestas_correctas)
-            
-        #Reproducir feedback de la respuesta
-        print(f"Reproduciendo respuesta: {question_number}...")
-        response_audio = self.speaker.speak_responses(question_number)
-        if response_audio:
-            stream.write(response_audio)
-        print(f"Reproduciendo feedback respuesta: {question_number}...")
-        feedback_audio = self.speaker.speak_feedback(question_number)
-        if feedback_audio:
-            stream.write(feedback_audio)
-            
-            #Avanzar a la siguiente pregunta
-            #loop_iter += 1
-            #self.speaker.next_question()
-            
-    #Cierre, explicacion final 
-    with open("files/resultados_generales.txt", "r") as file:
-        general_results = file.read()
-    final_feedback = self.speaker.speak(general_results)
-    stream.write(final_feedback)
-        
-        #Despedida en alto 
-           
-    goodbye = self.speaker.speak("¡Un placer haber jugado con vosotros! ¡Chaito!")
-    stream.write(goodbye)
-                
-    self.stream.stop_stream()
-    self.stream.close()
-    self.p.terminate()
-    print("FIN DE SISTEMA")
-        
-def get_pregunta(self, iteracion, preguntas):
-    start_idx = iteracion * 4
-    return "".join(preguntas[start_idx:start_idx + 4])
-'''
 
