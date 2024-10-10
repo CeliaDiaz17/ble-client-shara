@@ -38,10 +38,10 @@ def main():
         
         asyncio.run(handle_ble_cycle())
         
-        responses = ble_manager.current_round_data
+        device_responses = ble_manager.current_round_data
         
         #hasta que tengamos la evaluacion
-        print(f"Respuestas obtenidas: {responses}")
+        print(f"Respuestas obtenidas: {device_responses}")
         
         correct = get_correct(quiz, question_number)
         explanation = get_explanation(quiz, question_number)
@@ -50,9 +50,13 @@ def main():
         speaker.speak(explanation)
         
         #evaluation and feedback
-        correct_answers = get_corrects(quiz, responses, question_number)
-        total_answ = len(responses)
+        correct_answers = get_corrects(quiz, device_responses, question_number)
+        total_answ = sum(len(responses) for responses in device_responses.values())
+        print(f"correct_answ: {correct_answers}")
+        print(f"total answ:{total_answ}")
         percentage_correct = calculate_percent(correct_answers,total_answ)
+        
+        print(f"percentage_correct: {percentage_correct}")
         str_feedback = evaluation_feedback(percentage_correct)
         
         speaker.speak(str_feedback)

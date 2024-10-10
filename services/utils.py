@@ -25,7 +25,7 @@ def get_explanation(json_data, question_number):
 
 #making the prompt for the evaluation feedback
 def evaluation_feedback(percentage_correct):
-    prompt = f"The following percentage {percentage_correct}  belongs to the percentage of correct answers from different students about a question. Tell me a response in which you mention this percentage and depending on if it's high or low give some adequate feedback to the classroom. In spanish."
+    prompt = f"Con base en que el {percentage_correct}% de los estudiantes respondió correctamente la última pregunta, genera una frase breve y motivadora para la clase, destacando lo que pueden mejorar o felicitándolos si el porcentaje es alto. En español."
     answer = make_request(prompt)
     return answer
     

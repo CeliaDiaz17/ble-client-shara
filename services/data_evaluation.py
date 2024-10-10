@@ -6,22 +6,24 @@ Module dedicated to the evaluation of the answers provided by the devices M5Stic
 def get_corrects(json_data, devices_responses, question_number):
     question_key = str(question_number)
     correct_answ = json_data[question_key]["correct"]
+    print(f"correct_answ en data evaluation: {correct_answ}")
     corrects = 0
     
     for device, responses in devices_responses.items():
         for response in responses:
-            if response == correct_answ:
+            if response.lower() == correct_answ:
                 corrects += 1
     
     return corrects        
     
 
 def calculate_percent(correct_answ, total_answ):
+    print(total_answ)
     if total_answ == 0:
         return 0,100 #para no dividir entre 0 y que pete
         
     percentage_correct = (correct_answ / total_answ) * 100
-    percentage_incorrect = 100 - percentage_correct
+    #percentage_incorrect = 100 - percentage_correct
         
     return percentage_correct
 
