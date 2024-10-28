@@ -13,20 +13,29 @@ from services.utils import get_correct, get_explanation, get_options, get_statem
 from ble_client import BleManager
 from services.data_evaluation import  get_corrects, calculate_percent
 
+#TODO: Probar manejo de pausas de la conexion BLE con muchos clickers
+
 def main():
     quiz = Quiz()
     speaker = Speaker()
     ble_manager = BleManager()
     
-    
+    #TODO: Sustituir esto por la llamada a la API para que genere un quiz nuevo cada vez    
     json_file_path = "files/quiz.json"
     with open(json_file_path, 'r') as json_file:
         quiz = json.load(json_file)
         
     async def handle_ble_cycle():
-        await ble_manager.ble_cycle()
+        await ble_manager.ble_cycle() #lanzar escaneo y recoleccion de datos
 
-
+    async def scan_responses():
+        print("Scanning for clicker responses...")
+        clicker_values = await ble_manager.scan_device()
+        print(f"Clicker values collected!: {clicker_values}")
+        return clicker_values
+    
+    asyncio.run(handle_ble_cycle())
+        
     for question_number in range(1, 5):
 
         statement = get_statement(quiz, question_number)
@@ -38,10 +47,10 @@ def main():
         
         asyncio.run(handle_ble_cycle())
         
-        device_responses = ble_manager.current_round_data
+        device_responses = asyncio.run(scan_responses())
         
         #hasta que tengamos la evaluacion
-        print(f"Respuestas obtenidas: {device_responses}")
+        print(f"Obtained responses: {device_responses}")
         
         correct = get_correct(quiz, question_number)
         explanation = get_explanation(quiz, question_number)
@@ -52,11 +61,11 @@ def main():
         #evaluation and feedback
         correct_answers = get_corrects(quiz, device_responses, question_number)
         total_answ = sum(len(responses) for responses in device_responses.values())
-        print(f"correct_answ: {correct_answers}")
-        print(f"total answ:{total_answ}")
+        #print(f"correct_answ: {correct_answers}")
+        #print(f"total answ:{total_answ}")
         percentage_correct = calculate_percent(correct_answers,total_answ)
         
-        print(f"percentage_correct: {percentage_correct}")
+        #print(f"percentage_correct: {percentage_correct}")
         str_feedback = evaluation_feedback(percentage_correct)
         
         speaker.speak(str_feedback)

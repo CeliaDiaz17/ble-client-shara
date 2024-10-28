@@ -1,3 +1,7 @@
+'''
+OpenAI wrapper for making the request to the API 
+'''
+
 import openai
 from typing import Dict, Any
 import os

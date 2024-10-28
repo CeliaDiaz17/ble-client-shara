@@ -1,5 +1,5 @@
 '''
-Module dedicated to the creation of audios from text and its reproduction. It uses Google Text-to-Speech services.
+Module dedicated to audio creation from text and its reproduction. It uses Google Text-to-Speech services.
 '''
 
 from services.cloud.google_api import text_to_speech
@@ -13,12 +13,10 @@ class Speaker:
         self.sample_width = sample_width
         
     def speak(self, text):
-        # Generar el audio usando TTS y guardarlo como archivo WAV
         audio = text_to_speech(text)
         with open("audio.wav", "wb") as audio_file:
             audio_file.write(audio)
         
-        # Cargar el archivo WAV directamente en WaveObject
         try:
             audio_object = sa.WaveObject.from_wave_file("audio.wav")
             play_object = audio_object.play()

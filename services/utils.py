@@ -1,6 +1,7 @@
 '''
 Module for utility functions.
 '''
+
 import json
 from services.cloud.openai_api import make_request
  
@@ -23,7 +24,7 @@ def get_correct(json_data, question_number):
 def get_explanation(json_data, question_number):
     return json_data[str(question_number)]['explanation']
 
-#making the prompt for the evaluation feedback
+#making gpt prompt for the evaluation feedback
 def evaluation_feedback(percentage_correct):
     prompt = f"Con base en que el {percentage_correct}% de los estudiantes respondió correctamente la última pregunta, genera una frase breve y motivadora para la clase, destacando lo que pueden mejorar o felicitándolos si el porcentaje es alto. En español."
     answer = make_request(prompt)

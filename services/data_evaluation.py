@@ -32,6 +32,8 @@ def calculate_percent(correct_answ, total_answ):
 MICKY HERRAMIENTAS QUE USAREMOS MAS TARDE
 *Calculo de porcentajes específicos y desde que dispositivo provienen. Se guarda en un txt para dispo del profe*
 
+Si se usa modificar para archivo json
+
 def calculo_porcentajes_especificos(resultados):
     estadisticas_dispositivos = {}
 
