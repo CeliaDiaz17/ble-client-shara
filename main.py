@@ -10,32 +10,37 @@ import asyncio
 from services.quiz import Quiz
 from services.speaker import Speaker
 from services.utils import get_correct, get_explanation, get_options, get_statement, evaluation_feedback
-from ble_client import BleManager
+from pasive_scaning import PassiveBluetoothScanner
 from services.data_evaluation import  get_corrects, calculate_percent
 
-#TODO: Probar manejo de pausas de la conexion BLE con muchos clickers
+#TODO: Implementar el pasive_scaning en el main
 
 def main():
     quiz = Quiz()
     speaker = Speaker()
-    ble_manager = BleManager()
+    scanner = PassiveBluetoothScanner()
+    #ble_manager = BleManager()
     
     #TODO: Sustituir esto por la llamada a la API para que genere un quiz nuevo cada vez    
     json_file_path = "files/quiz.json"
     with open(json_file_path, 'r') as json_file:
         quiz = json.load(json_file)
         
+    '''
     async def handle_ble_cycle():
-        await ble_manager.ble_cycle() #lanzar escaneo y recoleccion de datos
-
-    async def scan_responses():
-        print("Scanning for clicker responses...")
-        clicker_values = await ble_manager.scan_device()
-        print(f"Clicker values collected!: {clicker_values}")
-        return clicker_values
+        asyncio.run(pasive_scaning.scan_devices())
+        #await ble_manager.ble_cycle() #lanzar escaneo y recoleccion de datos
+    '''
     
-    asyncio.run(handle_ble_cycle())
-        
+    #async def scan_responses():
+    '''
+    print("Scanning for clicker responses...")
+    clicker_values = await ble_manager.scan_device()
+    print(f"Clicker values collected!: {clicker_values}")
+    return clicker_values
+    '''
+    #asyncio.run(handle_ble_cycle())
+    print("INICIO DEL SISTEMA")   
     for question_number in range(1, 5):
 
         statement = get_statement(quiz, question_number)
@@ -45,9 +50,10 @@ def main():
         speaker.speak(options)
         time.sleep(5) #tiempo para que los alumnos respondan
         
-        asyncio.run(handle_ble_cycle())
+        device_responses = asyncio.run(scanner.scan_devices())
+        #asyncio.run(handle_ble_cycle())
         
-        device_responses = asyncio.run(scan_responses())
+        #device_responses = asyncio.run(scan_responses())
         
         #hasta que tengamos la evaluacion
         print(f"Obtained responses: {device_responses}")
@@ -60,7 +66,7 @@ def main():
         
         #evaluation and feedback
         correct_answers = get_corrects(quiz, device_responses, question_number)
-        total_answ = sum(len(responses) for responses in device_responses.values())
+        total_answ = sum(len(responses) for responses in device_responses)
         #print(f"correct_answ: {correct_answers}")
         #print(f"total answ:{total_answ}")
         percentage_correct = calculate_percent(correct_answers,total_answ)
@@ -70,6 +76,8 @@ def main():
         
         speaker.speak(str_feedback)
         
+    speaker.speak("Gracias por participar chicos! Hasta la proxima!")
+    print("FIN DEL SISTEMA")  
 
 
 if __name__ == "__main__":

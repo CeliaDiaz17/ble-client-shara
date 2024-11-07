@@ -8,7 +8,7 @@ from google.cloud import translate_v2 as translate
 clientTTS = texttospeech.TextToSpeechClient()
 voice = texttospeech.VoiceSelectionParams(
     language_code='es-ES',
-    ssml_gender=texttospeech.SsmlVoiceGender.FEMALE
+    ssml_gender=texttospeech.SsmlVoiceGender.MALE
 )
 tts_config = texttospeech.AudioConfig(
     audio_encoding=texttospeech.AudioEncoding.LINEAR16,

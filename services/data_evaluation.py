@@ -9,8 +9,8 @@ def get_corrects(json_data, devices_responses, question_number):
     print(f"correct_answ en data evaluation: {correct_answ}")
     corrects = 0
     
-    for device, responses in devices_responses.items():
-        for response in responses:
+    for response in devices_responses:
+        #for response in responses:
             if response.lower() == correct_answ:
                 corrects += 1
     
