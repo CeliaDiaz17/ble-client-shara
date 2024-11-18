@@ -1,52 +1,52 @@
 {
     "1": {
-        "statement": "¿Cuál es la importancia del ciclo del agua en un ecosistema?",
+        "statement": "Pregunta 1: ¿Cuáles son las tres etapas principales del ciclo del agua?",
         "options": {
-            "a": "Mantener el equilibrio térmico del ambiente",
-            "b": "Permitir el transporte de nutrientes y desechos",
-            "c": "Regular la cantidad de luz solar que llega al suelo"
-        },
-        "correct": "b",
-        "explanation": "La correcta opción es la b, ya que el ciclo del agua permite el transporte de nutrientes y desechos en los ecosistemas, facilitando la vida de los seres vivos que dependen de ellos."
-    },
-    "2": {
-        "statement": "¿Qué fenómeno natural contribuye al ciclo del agua al evaporar el agua de los océanos?",
-        "options": {
-            "a": "La fotosíntesis de las plantas marinas",
-            "b": "La radiación solar",
-            "c": "Los huracanes"
-        },
-        "correct": "b",
-        "explanation": "La respuesta correcta es la b, ya que la radiación solar es el principal agente que provoca la evaporación del agua de los océanos, dando inicio al ciclo del agua."
-    },
-    "3": {
-        "statement": "¿Cuál es el proceso por el cual el agua vuelve a la superficie de la Tierra en forma de lluvia o nieve?",
-        "options": {
-            "a": "Evaporación",
-            "b": "Precipitación",
-            "c": "Transpiración"
-        },
-        "correct": "b",
-        "explanation": "La opción correcta es la b, ya que la precipitación es el proceso por el cual el agua que se evapora vuelve a la superficie terrestre en forma de lluvia, nieve, granizo, entre otros."
-    },
-    "4": {
-        "statement": "¿Qué papel juegan las plantas en el ciclo del agua a través de la liberación de vapor de agua por sus hojas?",
-        "options": {
-            "a": "Reducción de la temperatura del suelo",
-            "b": "Aumento de la salinidad del agua",
-            "c": "Aceleración de la evaporación"
+            "a": "Evaporación, condensación, precipitación",
+            "b": "Filtración, evaporación, transporte",
+            "c": "Condensación, absorción, almacenamiento"
         },
         "correct": "a",
-        "explanation": "La respuesta correcta es la a, ya que las plantas liberan vapor de agua por sus hojas, lo cual contribuye a la reducción de la temperatura del suelo, ayudando a regular el ciclo del agua."
+        "explanation": "Las tres etapas son evaporación, condensación y precipitación, que son clave en el ciclo del agua."
+    },
+    "2": {
+        "statement": "Pregunta 2: ¿Qué ocurre durante la evaporación?",
+        "options": {
+            "a": "El agua se convierte en vapor",
+            "b": "El agua se enfría",
+            "c": "El agua se acumula en ríos"
+        },
+        "correct": "a",
+        "explanation": "Durante la evaporación, el agua se calienta y se transforma en vapor, subiendo a la atmósfera."
+    },
+    "3": {
+        "statement": "Pregunta 3: ¿Qué sucede en la condensación?",
+        "options": {
+            "a": "El vapor se convierte en agua",
+            "b": "El agua se congela",
+            "c": "El agua se evapora"
+        },
+        "correct": "a",
+        "explanation": "En la condensación, el vapor de agua se enfría y se convierte de nuevo en agua, formando nubes."
+    },
+    "4": {
+        "statement": "Pregunta 4: ¿Qué es la precipitación?",
+        "options": {
+            "a": "Cuando el agua se evapora",
+            "b": "Cuando el agua cae de las nubes en forma de lluvia, nieve o granizo",
+            "c": "Cuando el agua se filtra en el suelo"
+        },
+        "correct": "b",
+        "explanation": "La precipitación es cuando el agua en las nubes se vuelve demasiado pesada y cae en forma de lluvia, nieve o granizo."
     },
     "5": {
-        "statement": "¿Qué ocurre cuando el agua infiltra en el suelo y recarga los acuíferos subterráneos?",
+        "statement": "Pregunta 5: ¿Por qué es importante el ciclo del agua?",
         "options": {
-            "a": "Se produce una disminución en el nivel de los ríos",
-            "b": "Se altera el ciclo natural del agua",
-            "c": "Se genera una reserva de agua potable"
+            "a": "Porque ayuda a regular el clima",
+            "b": "Porque solo existe en la primavera",
+            "c": "Porque hace que el agua se vuelva contaminada"
         },
-        "correct": "c",
-        "explanation": "La opción correcta es la c, ya que cuando el agua infiltra en el suelo y recarga los acuíferos subterráneos, se genera una reserva de agua subterránea, la cual puede ser utilizada como agua potable."
+        "correct": "a",
+        "explanation": "El ciclo del agua es importante porque ayuda a regular el clima y proporciona agua dulce para todos los seres vivos."
     }
 }

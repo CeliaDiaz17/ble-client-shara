@@ -34,9 +34,9 @@ class Quiz:
 }}"""
         self.quiz_prompt = f"""
             Given the following content from the PDF {self.user_document}, generate a quiz in Spanish with 5 questions.
-            Each question should have 3 options, and the correct option should be marked with the symbol * next to it. For each quesiton, provide the correct answer with a brief explanation. 
+            Each question should have 3 options. For each quesiton, provide the correct answer with a brief explanation. Don't be too verbose, but be friendly, you are interacting with 10 year old kids. 
             The structure for each question should be the following: {self.question_structure}
-            Give me that information using the following JSON structure: {self.json_structure}  
+            Give me that information using the following JSON structure(without any additional text or explanation outside the JSON): {self.json_structure}  
         """
         
     def create_quiz(self, quiz_prompt):

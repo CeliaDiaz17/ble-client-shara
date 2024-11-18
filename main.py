@@ -22,23 +22,34 @@ def main():
     #ble_manager = BleManager()
     
     #TODO: Sustituir esto por la llamada a la API para que genere un quiz nuevo cada vez    
+    
     json_file_path = "files/quiz.json"
     with open(json_file_path, 'r') as json_file:
         quiz = json.load(json_file)
-        
-    '''
-    async def handle_ble_cycle():
-        asyncio.run(pasive_scaning.scan_devices())
-        #await ble_manager.ble_cycle() #lanzar escaneo y recoleccion de datos
-    '''
     
-    #async def scan_responses():
     '''
-    print("Scanning for clicker responses...")
-    clicker_values = await ble_manager.scan_device()
-    print(f"Clicker values collected!: {clicker_values}")
-    return clicker_values
-    '''
+    json_file_path = "files/quiz.json"
+    
+    str_quiz = quiz.create_quiz(quiz.quiz_prompt)
+    print(str_quiz)
+    
+    # Verificar si str_quiz es válido antes de convertirlo
+    if str_quiz and str_quiz.strip().startswith('{'):
+        try:
+            dict_quiz = json.loads(str_quiz)
+            print("JSON cargado correctamente")
+            # Guardar el JSON en un archivo
+            with open(json_file_path, 'w', encoding='utf-8') as json_file:
+                json.dump(dict_quiz, json_file, ensure_ascii=False, indent=4)
+        except json.JSONDecodeError as e:
+            print("Error al cargar el JSON:", e)
+    else:
+        print("Error: `str_quiz` no contiene un JSON válido.")
+    
+    with open(json_file_path, 'r') as json_file:
+        quiz = json.load(json_file)
+    '''    
+
     #asyncio.run(handle_ble_cycle())
     print("INICIO DEL SISTEMA")   
     for question_number in range(1, 5):
@@ -51,7 +62,6 @@ def main():
         time.sleep(5) #tiempo para que los alumnos respondan
         
         device_responses = asyncio.run(scanner.scan_devices())
-        #asyncio.run(handle_ble_cycle())
         
         #device_responses = asyncio.run(scan_responses())
         

@@ -14,7 +14,7 @@ def get_options(json_data, question_number):
     
     options_txt = ""
     for key, value in options.items():
-        options_txt += f"Opcion {key}: {value}."
+        options_txt += f"Opción {key}: {value}."
         
     return options_txt
 
