@@ -51,7 +51,6 @@ async def main():
         quiz = json.load(json_file)
     '''    
 
-    #asyncio.run(handle_ble_cycle())
     print("INICIO DEL SISTEMA")   
     speaker.speak("Bienvenidos a todos y a todas! Vamos a comenzar un cuestionario de 4 preguntas sobre el temario. Estad atentos. Tendréis 15 segundos para contestar cada pregunta. ¡Suerte!")
     for question_number in range(1, 5):
@@ -62,11 +61,10 @@ async def main():
         speaker.speak(statement)
         speaker.speak(options)
         speaker.speak("Desde ahora, teneis 15 segundos para responder")
-        time.sleep(5) #tiempo para que los alumnos respondan
+        time.sleep(15) #tiempo para que los alumnos respondan
         
         device_responses = await scanner.retrieve_device_data()
         
-        #hasta que tengamos la evaluacion
         print(f"Obtained responses: {device_responses}")
         
         correct = get_correct(quiz, question_number)
@@ -78,11 +76,8 @@ async def main():
         #evaluation and feedback
         correct_answers = get_corrects(quiz, device_responses, question_number)
         total_answ = sum(len(responses) for responses in device_responses)
-        #print(f"correct_answ: {correct_answers}")
-        #print(f"total answ:{total_answ}")
         percentage_correct = calculate_percent(correct_answers,total_answ)
         
-        #print(f"percentage_correct: {percentage_correct}")
         str_feedback = evaluation_feedback(percentage_correct)
         
         speaker.speak(str_feedback)
