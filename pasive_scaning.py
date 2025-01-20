@@ -4,6 +4,11 @@ import platform
 import subprocess
 import time
 
+import asyncio
+from bleak import BleakScanner, BleakClient, BleakError
+import time
+
+
 class PassiveBluetoothScanner:
     def __init__(self):
         self.connected_clients = {}  # Store connected clients
@@ -151,6 +156,7 @@ class PassiveBluetoothScanner:
             except Exception as e:
                 print(f"Error disconnecting: {e}")
         self.connected_clients.clear()
+        
 
 
 
