@@ -1,9 +1,3 @@
-'''
-Módulo principal del programa. Este se ejecutará en el SHARA (cliente) y se encargara de 
-coordinar la conectividad con los dispositivos BLE, y usará el resto de módulos del programa 
-para generar y evaluar preguntas, y reproducir los resultados. 
-'''
-
 import json
 import logging
 import time
@@ -95,14 +89,18 @@ async def quiz_logic(eyes):
         print("Error: `str_quiz` no contiene un JSON válido.")
     
     with open(json_file_path, 'r') as json_file:
-        quiz = json.load(json_file)
-       '''
+        json_quiz = json.load(json_file)
+    '''   
       
     
-    await scanner.handshake()
+    connected_devices = await scanner.handshake()
+    num_devices = len(connected_devices)
     
     logging.info("INICIO DEL SISTEMA")   
-    speaker.speak("Bienvenidos a todos y a todas! Vamos a comenzar un cuestionario de 4 preguntas sobre el temario. Estad atentos. Tendréis 15 segundos para contestar cada pregunta. ¡Suerte!")
+    speaker.speak(f"Sistema preparado. {num_devices} dispositivos conectados. Toque la pantalla para comenzar.")
+    resume_event.clear()
+    resume_event.wait()
+    speaker.speak("Bienvenidos a todos y a todas! Vamos a comenzar un cuestionario de 3 preguntas sobre el temario. Estad atentos. Tendréis 15 segundos para contestar cada pregunta. ¡Suerte!")
     for question_number in range(1, 4):
         
         statement = get_statement(json_quiz, question_number)
@@ -120,8 +118,9 @@ async def quiz_logic(eyes):
         logging.info(f"Obtained responses: {device_responses}")
         
         correct = get_correct(json_quiz, question_number)
-        explanation = get_explanation(json_quiz, question_number) #DE MOMENTO PORQUE ESTAMOS SIN TOKENS, hay que meter dinerin :D
+        explanation = get_explanation(json_quiz, question_number) 
         
+        speaker.speak("La opción correcta es la")
         speaker.speak(correct)
         speaker.speak(explanation)
         
@@ -136,10 +135,10 @@ async def quiz_logic(eyes):
             eyes.set('sad')
         
         
-        #str_feedback = evaluation_feedback(percentage_correct) no nineros
+        str_feedback = evaluation_feedback(percentage_correct) 
         
-        #speaker.speak(str_feedback)
-        speaker.speak("Aqui te estoy dando un feedback guapísimo y ahora deberia pararme")
+        speaker.speak(str_feedback)
+        #speaker.speak("Aqui te estoy dando un feedback guapísimo y ahora deberia pararme")
         
 
         logging.info("Sistema pausado automaticamente")
@@ -147,6 +146,7 @@ async def quiz_logic(eyes):
         logging.info("Esperando que se toque la pantalla para continuar")
         resume_event.clear()
         resume_event.wait()
+        speaker.speak("¡Genial! Continuamos")
         
     eyes.set('joy')
     speaker.speak("Gracias por participar chicos! Hasta la proxima!")
@@ -167,4 +167,5 @@ if __name__ == "__main__":
         loop.run_until_complete(main())
     except KeyboardInterrupt: 
         eyes.stop()
+
 
