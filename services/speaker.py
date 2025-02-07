@@ -11,6 +11,7 @@ class Speaker:
         self.channels = channels
         self.format = format
         self.sample_width = sample_width
+        self.current_playback = None
         
     def speak(self, text):
         audio = text_to_speech(text)
@@ -22,6 +23,18 @@ class Speaker:
             play_object = audio_object.play()
             play_object.wait_done()
         except Exception as e:
-            print(f"Error al reproducir el audio: {e}")    
-
+            print(f"Error al reproducir el audio: {e}")
+              
+            
+    def play_background_music(self, audio_path):
+        try:
+            wave_obj = sa.WaveObject.from_wave_file(audio_path)
+            self.current_playback = wave_obj.play()
+        except Exception as e:
+            print(f"Error playing background music: {e}")
+        
+    def stop_background_music(self):
+        if self.current_playback:
+            self.current_playback.stop()
+            self.current_playback = None  
         

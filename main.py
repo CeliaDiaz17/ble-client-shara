@@ -90,7 +90,8 @@ async def quiz_logic(eyes):
     
     with open(json_file_path, 'r') as json_file:
         json_quiz = json.load(json_file)
-    '''   
+    '''
+    
       
     
     connected_devices = await scanner.handshake()
@@ -111,7 +112,13 @@ async def quiz_logic(eyes):
         speaker.speak(options)
         speaker.speak("Desde ahora, teneis 15 segundos para responder")
         
+        speaker.play_background_music("../audio/background_music_PF.wav")
         time.sleep(15)
+        speaker.stop_background_music()
+        
+        speaker.speak("Tiempo!")
+        resume_event.clear()
+        resume_event.wait()
             
         device_responses = await scanner.retrieve_device_data()
                         
@@ -167,6 +174,7 @@ if __name__ == "__main__":
         loop.run_until_complete(main())
     except KeyboardInterrupt: 
         eyes.stop()
+
         
         #hola
 
